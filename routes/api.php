@@ -13,8 +13,17 @@ use App\Http\Controllers\Auth;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::group([
+    'prefix' => 'user'
+], function(){
+   Route::post('login', 'UserController@login');
+   Route::group([
+       'middleware' => 'auth:api'
+    ], function(){
+        Route::post('logout','UserController@logout');
+        Route::get('profile','UserController@profile');
+    });
 });
 
 
